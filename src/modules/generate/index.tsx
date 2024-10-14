@@ -61,7 +61,7 @@ function Tooltip({ content, children }: TooltipProps) {
   return (
     <div className="group relative">
       {children}
-      <div className="invisible absolute left-full z-10 -mt-2 ml-2 w-48 rounded bg-gray-800 p-2 text-xs text-white group-hover:visible">
+      <div className="rounded bg-gray-800 left-full -mt-2 text-xs text-white ml-2 p-2 w-48 z-10 invisible absolute group-hover:visible">
         {content}
       </div>
     </div>
@@ -171,13 +171,13 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
         setHistory(history)
       }
 
-      setTimeout(() => {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          left: 0,
-          behavior: 'smooth',
-        })
-      }, 100)
+      // setTimeout(() => {
+      //   window.scrollTo({
+      //     top: document.body.scrollHeight,
+      //     left: 0,
+      //     behavior: 'smooth',
+      //   })
+      // }, 100)
     } finally {
       setIsGenerating(false)
     }
@@ -269,23 +269,23 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
 
   return (
     <div>
-      <div className="md:3/4 grid w-full grid-cols-3 gap-4 py-4 md:grid-cols-4 lg:w-4/5">
+      <div className="w-full grid py-4 gap-4 grid-cols-3 md:grid-cols-4 md:3/4 lg:w-4/5">
         {models.map((item) => (
           <AlertDialog key={item.label}>
             <AlertDialogTrigger asChild>
-              <div className="relative cursor-pointer">
+              <div className="cursor-pointer relative">
                 <FlipCards
                   url={`https://raw.githubusercontent.com/heurist-network/heurist-models/main/examples/${item.label}.jpg`}
                   back={
                     <div className="flex flex-col gap-2">
-                      <div className="text-sm font-bold">Prompt</div>
-                      <div className="whitespace-pre-wrap text-left text-xs">
+                      <div className="font-bold text-sm">Prompt</div>
+                      <div className="text-left text-xs whitespace-pre-wrap">
                         {item.data.prompt}
                       </div>
                     </div>
                   }
                   extra={
-                    <span className="i-ri-information-line absolute bottom-1 right-1 h-5 w-5 text-gray-300 md:bottom-2 md:right-2 md:h-6 md:w-6" />
+                    <span className="h-5 right-1 bottom-1 text-gray-300 w-5 i-ri-information-line absolute md:h-6 md:right-2 md:bottom-2 md:w-6" />
                   }
                 />
               </div>
@@ -294,7 +294,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
               <AlertDialogHeader>
                 <AlertDialogTitle>Prompt</AlertDialogTitle>
                 <AlertDialogDescription asChild>
-                  <div className="max-h-[calc(100vh-20rem)] overflow-y-auto whitespace-pre-wrap text-left">
+                  <div className="text-left max-h-[calc(100vh-20rem)] overflow-y-auto whitespace-pre-wrap">
                     {JSON.stringify(item.data, null, 2)}
                   </div>
                 </AlertDialogDescription>
@@ -332,7 +332,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                 <FormLabel className="flex items-center">
                   Prompt
                   <Tooltip content="Enter a description or a list of key words of the image you want to generate">
-                    <Info className="ml-2 h-4 w-4 cursor-help" />
+                    <Info className="cursor-help h-4 ml-2 w-4" />
                   </Tooltip>
                 </FormLabel>
                 <FormControl>
@@ -374,7 +374,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                   <FormLabel className="flex items-center">
                     Negative Prompt
                     <Tooltip content="Enter elements you don't want in the generated image">
-                      <Info className="ml-2 h-4 w-4 cursor-help" />
+                      <Info className="cursor-help h-4 ml-2 w-4" />
                     </Tooltip>
                   </FormLabel>
                   <FormControl>
@@ -391,7 +391,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
             />
           )}
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
             <FormField
               control={form.control}
               name="num_iterations"
@@ -400,7 +400,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                   <FormLabel className="flex items-center">
                     Sampling Steps ({field.value})
                     <Tooltip content="Recommended: 20-30. Higher values may produce better quality but take longer.">
-                      <Info className="ml-2 h-4 w-4 cursor-help" />
+                      <Info className="cursor-help h-4 ml-2 w-4" />
                     </Tooltip>
                   </FormLabel>
                   <Input
@@ -431,7 +431,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                   <FormLabel className="flex items-center">
                     Guidance Scale ({field.value})
                     <Tooltip content="Recommended: 4-10. Higher values adhere more strictly to the prompt.">
-                      <Info className="ml-2 h-4 w-4 cursor-help" />
+                      <Info className="cursor-help h-4 ml-2 w-4" />
                     </Tooltip>
                   </FormLabel>
                   <Input
@@ -455,7 +455,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
             />
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-3">
             <FormField
               control={form.control}
               name="width"
@@ -524,7 +524,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                   <FormLabel className="flex items-center">
                     Seed
                     <Tooltip content="Use -1 for random results. Use non-negative number for deterministic results.">
-                      <Info className="ml-2 h-4 w-4 cursor-help" />
+                      <Info className="cursor-help h-4 ml-2 w-4" />
                     </Tooltip>
                   </FormLabel>
                   <FormControl>
@@ -537,7 +537,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
           </div>
           <div className="space-y-4">
             <motion.button
-              className="h-14 w-full overflow-hidden rounded-lg text-2xl font-semibold text-white shadow-lg"
+              className="rounded-lg font-semibold h-14 shadow-lg text-white w-full text-2xl overflow-hidden"
               style={{
                 background: 'linear-gradient(45deg, #00ff9d, #ffff00, #00ff9d)',
                 backgroundSize: '200% 200%',
@@ -568,7 +568,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
 
             {!!result.url && (
               <>
-                <div className="flex flex-wrap justify-center gap-2">
+                <div className="flex flex-wrap gap-2 justify-center">
                   <MintToNFT url={info.url} model={model} imageId={info.id} />
 
                   <Button
@@ -578,7 +578,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                     onClick={onUpload}
                   >
                     {loadingUpload ? (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className="h-4 mr-2 animate-spin w-4" />
                     ) : (
                       <Image
                         src="/gateway.svg"
@@ -599,7 +599,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                     onClick={onShareTwitter}
                   >
                     <span>Share on</span>
-                    <span className="i-ri-twitter-x-fill h-4 w-4" />
+                    <span className="h-4 w-4 i-ri-twitter-x-fill" />
                   </Button>
                 </div>
               </>
@@ -607,7 +607,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
           </div>
           {loadingUpload && (
             <div className="flex items-center">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 mr-2 animate-spin w-4" />
               Loading Upload to Gateway
             </div>
           )}
@@ -617,7 +617,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                 Transaction Details:{' '}
               </div>
               <Link
-                className="line-clamp-3 text-muted-foreground transition-colors hover:text-primary"
+                className="text-muted-foreground transition-colors line-clamp-3 hover:text-primary"
                 href={`https://mygateway.xyz/explorer/transactions/${transactionId}`}
                 target="_blank"
               >
@@ -629,13 +629,13 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
       </Form>
       {result.url && (
         <motion.div
-          className="mt-8 flex flex-col items-center space-y-8"
+          className="flex flex-col space-y-8 mt-8 items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           <Image
-            className="absolute opacity-0"
+            className="opacity-0 absolute"
             unoptimized
             priority
             src={result.url}
