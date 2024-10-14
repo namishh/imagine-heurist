@@ -99,8 +99,8 @@ importers:
         specifier: 14.2.15
         version: 14.2.15(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       powerglitch:
-        specifier: 2.3.4
-        version: 2.3.4
+        specifier: 2.3.2
+        version: 2.3.2
       randomstring:
         specifier: 1.3.0
         version: 1.3.0
@@ -5016,8 +5016,8 @@ packages:
   potpack@1.0.2:
     resolution: {integrity: sha512-choctRBIV9EMT9WGAZHn3V7t0Z2pMQyl0EZE6pFc/6ml3ssw7Dlf/oAOvFwjm1HVsqfQN8GfeFyJ+d8tRzqueQ==}
 
-  powerglitch@2.3.4:
-    resolution: {integrity: sha512-QVCs/scRcI9caxykt95civDyZ0L0TahFSP2BU/Mn/db4WweKcT8rUwVdp/O+pr9nF744mVMFoYsMh9Zx7nW3vQ==}
+  powerglitch@2.3.2:
+    resolution: {integrity: sha512-nRKMttDRu0aOeu5/rUm0CFvwuaE3b7Klujjn0AIgoLUim0E2+4YpXZ76+2t9cJERQuFZ+7D36ywG7GLtRUSyMQ==}
 
   preact@10.24.2:
     resolution: {integrity: sha512-1cSoF0aCC8uaARATfrlz4VCBqE8LwZwRfLgkxJOQwAlQt6ayTmi0D9OF7nXid1POI5SZidFuG9CnlXbDfLqY/Q==}
@@ -12662,7 +12662,7 @@ snapshots:
 
   potpack@1.0.2: {}
 
-  powerglitch@2.3.4: {}
+  powerglitch@2.3.2: {}
 
   preact@10.24.2: {}
 
