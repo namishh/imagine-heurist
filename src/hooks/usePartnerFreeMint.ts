@@ -27,15 +27,16 @@ export const usePartnerFreeMint = () => {
 
     setIsLoading(true)
     try {
-      const contractAddresses = partnerNftList
-        .map((nft) => `contractAddresses[]=${nft}`)
-        .join('&')
-      const url = `/api/getNFTsForOwner?address=${address}&${contractAddresses}&withMetadata=false`
+      // const contractAddresses = partnerNftList
+      //   .map((nft) => `contractAddresses[]=${nft}`)
+      //   .join('&')
+      // const url = `/api/getNFTsForOwner?address=${address}&${contractAddresses}&withMetadata=false`
 
-      const response = await fetch(url)
-      const data = await response.json()
+      // const response = await fetch(url)
+      // const data = await response.json()
 
-      setOwnedNFTs(data.ownedNfts || [])
+      //setOwnedNFTs(data.ownedNfts || [])
+      setOwnedNFTs([])
     } catch (error) {
       console.error('Error fetching NFTs for owner', error)
       setOwnedNFTs([])
