@@ -28,6 +28,7 @@ export async function FeatureModels() {
     if (type === 'composite15') return 'SD1.5 LoRA'
     if (type === 'compositexl') return 'SDXL LoRA'
     if (type === 'flux-dev' || type === 'flux-schnell') return 'Flux'
+    if (type === 'flux-dev-lora') return 'Flux LoRA'
     return ''
   }
 
