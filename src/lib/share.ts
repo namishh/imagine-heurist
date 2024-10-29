@@ -1,7 +1,7 @@
 export const shareOnX = (name: string, prompt: string) => {
   const intentUrl =
     'https://twitter.com/intent/tweet?text=' +
-    encodeURIComponent('My latest #AIart creation with Imagine #Heurist 🎨') +
+    encodeURIComponent('My latest #AIart creation with #Heurist Imagine 🎨') +
     '&url=' +
     encodeURIComponent(`https://imagine.heurist.ai/share/${name}`) +
     '\n Prompt: ' +

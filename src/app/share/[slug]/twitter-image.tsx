@@ -5,18 +5,18 @@ import { ImageResponse } from 'next/og'
 export const runtime = 'edge'
 
 // Image metadata
-export const alt = 'Imagine Share'
+export const alt = 'Created with Heurist Imagine'
 export const size = {
   width: 1200,
   height: 630,
 }
 
-export const contentType = 'image/png'
-
 // https://d1dagtixswu0qn.cloudfront.net/imagine-08139a61a4.png
 
 export default async function Image({ params }: { params: { slug: string } }) {
-  const { slug } = params
+  let { slug } = params
+  // back compatible
+  if (!slug.includes(".")) slug = slug + ".png"
 
   // Font
   // const interSemiBold = fetch(
@@ -38,7 +38,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
         }}
       >
         <img
-          src={`https://d1dagtixswu0qn.cloudfront.net/${slug}.png`}
+          src={`https://d1dagtixswu0qn.cloudfront.net/${slug}`}
           alt={slug}
         />
       </div>

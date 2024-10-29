@@ -14,7 +14,8 @@ export function cn(...inputs: ClassValue[]) {
 export const extractImageId = (url: string): string => {
   const parts = url.split('/')
   const lastPart = parts[parts.length - 1]
-  return lastPart.split('.')[0]
+  // assuming the url is like xxxx.png?s3signature=yyy
+  return lastPart.split('?')[0]
 }
 
 // Linear interpolation

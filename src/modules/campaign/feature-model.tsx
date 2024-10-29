@@ -343,13 +343,12 @@ export function FeatureModel({ lists }: { lists: any[] }) {
       actionType: 'TWITTER_SHARE',
     })
 
-    const path = mintUrl.split('/')
-    const name = path[path.length - 1].split('.')[0]
+    const imageName = extractImageId(mintUrl)
     const intentUrl =
       'https://twitter.com/intent/tweet?text=' +
-      encodeURIComponent('My latest #AIart creation with Imagine #Heurist 🎨') +
+      encodeURIComponent('My latest #AIart creation with #Heurist Imagine 🎨') +
       '&url=' +
-      encodeURIComponent(`https://imagine.heurist.ai/share/${name}`)
+      encodeURIComponent(`https://imagine.heurist.ai/share/${imageName}`)
     window.open(intentUrl, '_blank', 'width=550,height=420')
   }
 
@@ -385,6 +384,8 @@ export function FeatureModel({ lists }: { lists: any[] }) {
         )
       } else {
         if (mintFee && balance < mintFee) {
+          console.log("mintFee", mintFee)
+          console.log("balance", balance)
           toast.error('Insufficient ETH balance to mint NFT.')
           return
         }

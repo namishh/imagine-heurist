@@ -4,9 +4,12 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export default function Share({ params }: { params: { slug: string } }) {
-  const { slug } = params
+  let { slug } = params
 
-  const url = `https://d1dagtixswu0qn.cloudfront.net/${slug}.png`
+  // back compatible
+  if (!slug.includes(".")) slug = slug + ".png"
+
+  const url = `https://d1dagtixswu0qn.cloudfront.net/${slug}`
 
   return (
     <div className="container py-16 pb-20 text-center">
