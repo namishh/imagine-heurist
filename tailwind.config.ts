@@ -182,6 +182,7 @@ const config = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     require('tailwindcss-animate'),
     iconsPlugin({
       collections: getIconCollections(['f7', 'ri', 'mingcute']),

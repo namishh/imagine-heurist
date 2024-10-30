@@ -36,6 +36,7 @@
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "11.11.8",
     "geist": "1.3.1",
+    "gray-matter": "^4.0.3",
     "heurist": "0.0.27",
     "lucide-react": "0.452.0",
     "nanoid": "5.0.7",
@@ -46,6 +47,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "7.53.0",
     "react-hot-toast": "2.4.1",
+    "react-markdown": "^9.0.1",
     "react-photo-view": "1.2.6",
     "tailwind-merge": "2.5.3",
     "tailwindcss-animate": "1.0.7",
@@ -57,6 +59,7 @@
     "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "@egoist/tailwindcss-icons": "1.8.1",
     "@innei/prettier": "0.15.0",
     "@types/node": "22.7.5",

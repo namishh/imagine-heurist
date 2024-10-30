@@ -11,6 +11,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'miro.medium.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 's3.us-east-1.amazonaws.com',
         pathname: '/**',
       },
