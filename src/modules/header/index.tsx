@@ -120,7 +120,7 @@ export function Header() {
             </div>
           )}
 
-          {pathname !== '/blog' && (
+          {pathname !== '/blog' && pathname !== '/campaign' && (
             <div className="hidden flex-1 justify-center lg:flex">
               <Link href="/blog">
                 <SwapText
