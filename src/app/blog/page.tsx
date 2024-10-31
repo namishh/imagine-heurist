@@ -7,8 +7,8 @@ import Link from 'next/link'
 
 export const generateMetadata = () => {
   return {
-    title: 'Blog | Heurist AI',
-    description: 'Read our latest blog posts',
+    title: 'Blog | Heurist Imagine',
+    description: 'AI image generation tutorials, prompting tips, educational contents about Stable Diffusion, Flux, and open source AI.',
   }
 }
 function formatDate(dateString: string): string {
