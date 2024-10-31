@@ -29,6 +29,41 @@ const nextConfig = {
         hostname: 'imaginaries.heurist.ai',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'files.heurist.xyz',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'app.giz.ai',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.giz.ai',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'twitter.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.civitai.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'civitai.com',
+        pathname: '/**',
+      },
     ],
   },
   reactStrictMode: false,
