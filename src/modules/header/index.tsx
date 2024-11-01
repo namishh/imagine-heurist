@@ -104,37 +104,43 @@ export function Header() {
           >
             <Logo />
           </Link>
-          {pathname !== '/campaign' && (
-            <div className="hidden flex-1 justify-center lg:flex">
-              <Link href={campaignLink}>
-                <SwapText
-                  initialText="Campaign"
-                  finalText="Campaign"
-                  supportsHover
-                  textClassName={cn(
-                    '-tracking-[0.0016em] transition-colors hover:text-[#CDF138] duration-100 text-[16px] leading-[1.5]',
-                    isHomePage || isScrollTop ? 'text-white' : 'text-[#0c0c0c]',
-                  )}
-                />
-              </Link>
-            </div>
-          )}
+          <div className="flex items-center gap-20">
+            {pathname !== '/campaign' && (
+              <div className="hidden flex-1 justify-center lg:flex">
+                <Link href={campaignLink}>
+                  <SwapText
+                    initialText="Campaign"
+                    finalText="Campaign"
+                    supportsHover
+                    textClassName={cn(
+                      '-tracking-[0.0016em] transition-colors hover:text-[#CDF138] duration-100 text-[16px] leading-[1.5]',
+                      isHomePage || isScrollTop
+                        ? 'text-white'
+                        : 'text-[#0c0c0c]',
+                    )}
+                  />
+                </Link>
+              </div>
+            )}
 
-          {pathname !== '/blog' && pathname !== '/campaign' && (
-            <div className="hidden flex-1 justify-center lg:flex">
-              <Link href="/blog">
-                <SwapText
-                  initialText="Blog"
-                  finalText="Blog"
-                  supportsHover
-                  textClassName={cn(
-                    '-tracking-[0.0016em] transition-colors hover:text-[#CDF138] duration-100 text-[16px] leading-[1.5]',
-                    isHomePage || isScrollTop ? 'text-white' : 'text-[#0c0c0c]',
-                  )}
-                />
-              </Link>
-            </div>
-          )}
+            {!pathname.includes('/blog') && !pathname.includes('/campaign') && (
+              <div className="hidden flex-1 justify-center lg:flex">
+                <Link href="/blog">
+                  <SwapText
+                    initialText="Blog"
+                    finalText="Blog"
+                    supportsHover
+                    textClassName={cn(
+                      '-tracking-[0.0016em] transition-colors hover:text-[#CDF138] duration-100 text-[16px] leading-[1.5]',
+                      isHomePage || isScrollTop
+                        ? 'text-white'
+                        : 'text-[#0c0c0c]',
+                    )}
+                  />
+                </Link>
+              </div>
+            )}
+          </div>
 
           <div className="hidden w-[250px] justify-end lg:flex">
             <ConnectButton />
