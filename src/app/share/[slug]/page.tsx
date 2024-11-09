@@ -3,11 +3,14 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 
-export default function Share({ params }: { params: { slug: string } }) {
+type Props = Promise<{ slug: string }>
+
+export default async function Share(props: { params: Props }) {
+  const params = await props.params
   let { slug } = params
 
   // back compatible
-  if (!slug.includes(".")) slug = slug + ".png"
+  if (!slug.includes('.')) slug = slug + '.png'
 
   const url = `https://d1dagtixswu0qn.cloudfront.net/${slug}`
 

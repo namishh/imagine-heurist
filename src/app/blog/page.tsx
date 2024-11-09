@@ -1,27 +1,20 @@
-// src/app/blog/page.tsx
 import { promises as fs } from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { formatDate } from '@/lib/utils'
+
 export const generateMetadata = () => {
   return {
     title: 'Blog | Heurist Imagine',
-    description: 'AI image generation tutorials, prompting tips, educational contents about Stable Diffusion, Flux, and open source AI.',
+    description:
+      'AI image generation tutorials, prompting tips, educational contents about Stable Diffusion, Flux, and open source AI.',
   }
-}
-function formatDate(dateString: string): string {
-  const date = new Date(dateString)
-  const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }
-  return date.toLocaleDateString('en-US', options)
 }
 
-const BlogIndexPage = async () => {
+export default async function BlogIndexPage() {
   const postsDirectory = path.join(process.cwd(), 'src/content')
   const filenames = await fs.readdir(postsDirectory)
 
@@ -43,51 +36,49 @@ const BlogIndexPage = async () => {
       }
     }),
   )
+
   // 按日期排序，最新的文章在前
   posts.sort((a, b) => {
     if (!a.date) return 1 // 没有日期的文章排在最后
     if (!b.date) return -1
     return new Date(b.date).getTime() - new Date(a.date).getTime()
   })
+
   return (
-    <main className="container m-auto px-20 py-20">
-      <div className="">
-        <h1 className="mb-2 text-center text-2xl font-bold">Blog Posts</h1>
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <main>
+      <div className="mx-auto max-w-5xl px-6 pb-20 md:max-w-[1440px]">
+        <div className="my-10 text-5xl font-semibold">Blog</div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <li
+            <Link
+              href={`/blog/${post.slug}`}
               key={post.slug}
-              className="rounded bg-slate-50 hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800"
+              className="rounded-2xl border p-4 shadow-[0_1px_6px_#00000014]"
             >
-              <Link href={`/blog/${post.slug}`}>
-                <article className="p-5">
-                  <div className="img-box">
-                    {post.featured_image ? (
-                      <Image
-                        src={post.featured_image}
-                        width={0}
-                        height={200}
-                        sizes="100vw"
-                        className="h-40 w-full object-cover"
-                        alt={post.title}
-                      />
-                    ) : (
-                      <div className="h-40 w-full bg-slate-300"></div>
-                    )}
-                  </div>
-                  <h2 className="text-xl font-bold">{post.title}</h2>
-                  <div className="">
-                    <span itemProp="datePublished">{post.date}</span>
-                  </div>
-                  <p className="text">{post.description}</p>
-                </article>
-              </Link>
-            </li>
+              <div className="mb-4 flex h-48 overflow-hidden rounded-lg">
+                <Image
+                  src={post.featured_image}
+                  width={0}
+                  height={212}
+                  sizes="100vw"
+                  className="flex-1 rounded-lg object-cover transition-transform duration-300 hover:scale-[1.03] hover:opacity-80"
+                  alt={post.title}
+                />
+              </div>
+
+              <div className="mb-1 text-[18px] font-semibold leading-[1.33] -tracking-[0.36px]">
+                {post.title}
+              </div>
+              <div className="line-clamp-3 text-[16px] leading-[1.5] text-[#424149]/90">
+                {post.description}
+              </div>
+              <div className="mt-4 text-[13px] leading-5 text-[#8e8d91]">
+                {post.date}
+              </div>
+            </Link>
           ))}
-        </ul>
+        </div>
       </div>
     </main>
   )
 }
-
-export default BlogIndexPage

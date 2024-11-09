@@ -7,12 +7,15 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 
 import { slugify } from '@/lib/commonFn'
+import { cn, formatDate } from '@/lib/utils'
 
-type Props = {
-  params: { slug: string }
-}
+type Props = Promise<{ slug: string }>
+
 // 动态生成 metadata
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Props
+}): Promise<Metadata> {
+  const params = await props.params
   const { slug } = params
   const postsDirectory = path.join(process.cwd(), 'src/content')
   const filePath = path.join(postsDirectory, `${slug}.md`)
@@ -107,7 +110,8 @@ async function getPostBySlug(slug: string) {
 
   return null
 }
-const PostPage = async ({ params }: any) => {
+
+export default async function PostPage({ params }: any) {
   const { slug } = params
   const post = await getPostBySlug(slug)
 
@@ -130,18 +134,43 @@ const PostPage = async ({ params }: any) => {
   const { content, prevPost, nextPost } = post
 
   return (
-    <main className="container mx-auto px-4 py-20">
-      <div className="mx-auto max-w-3xl">
-        <article className="prose prose-xl prose-stone mb-12">
-          <Link className="hover:underline" href="/blog">
-            &lt; Back to Blog
-          </Link>
-          <ReactMarkdown>{content}</ReactMarkdown>
-        </article>
+    <main>
+      <div className="mx-auto max-w-3xl px-6 pb-20">
+        <Link className="group mb-12 flex items-center gap-1" href="/blog">
+          <span className="i-mingcute-left-line text-[rgb(148,163,184)] transition-colors group-hover:text-[rgb(15,23,42)]" />
+          <div className="text-[#334155] transition-colors group-hover:text-[rgb(15,23,42)]">
+            All blog
+          </div>
+        </Link>
+        <div className="mb-4 text-sm -tracking-[0.28px] text-[#8e8d91]">
+          Last edited: {formatDate(post.data.date)}
+        </div>
+        <div className="mb-4">
+          <div className="leading-[22px] -tracking-[0.176px] text-[rgb(17,24,28)]">
+            {post.data.author}
+          </div>
+          <div className="text-[13px] leading-[17.875px] -tracking-[0.048px] text-[rgb(104,112,118)]">
+            Author
+          </div>
+        </div>
+        <ReactMarkdown
+          className={cn(
+            'prose',
+            'prose-h1:border-b prose-h1:pb-6 prose-h1:text-[30px] prose-h1:font-semibold prose-h1:leading-[32px] prose-h1:tracking-[-0.48px]',
+            'prose-h2:mb-6 prose-h2:mt-0 prose-h2:text-[22.935px] prose-h2:font-semibold prose-h2:leading-[30.58px]',
+            'prose-p:mb-[21px] prose-p:text-[15px] prose-p:leading-[24.7px] prose-p:tracking-[-0.15px]',
+            'prose-img:my-2 prose-img:w-full prose-img:rounded-xl',
+            'prose-ol:mb-6 prose-ol:mt-0 prose-ol:text-[15px] prose-ol:leading-[24.7px]',
+            'prose-ul:mb-6 prose-ul:mt-0 prose-ul:text-[15px] prose-ul:leading-[24.7px]',
+            'prose-a:line-clamp-1',
+          )}
+        >
+          {content}
+        </ReactMarkdown>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {prevPost && (
             <Link href={`/blog/${prevPost.slug}`} className="block">
-              <div className="h-full rounded-lg bg-white p-6 shadow-md transition-all hover:shadow-lg">
+              <div className="h-full rounded-lg border bg-white p-6 shadow transition-all hover:shadow-md">
                 <p className="mb-2 text-sm text-gray-500">Previous</p>
                 <h3 className="text-xl font-semibold text-gray-800">
                   {prevPost.title}
@@ -151,7 +180,7 @@ const PostPage = async ({ params }: any) => {
           )}
           {nextPost && (
             <Link href={`/blog/${nextPost.slug}`} className="block">
-              <div className="h-full rounded-lg bg-white p-6 shadow-md transition-all hover:shadow-lg">
+              <div className="h-full rounded-lg border bg-white p-6 shadow transition-all hover:shadow-md">
                 <p className="mb-2 text-right text-sm text-gray-500">Next</p>
                 <h3 className="text-xl font-semibold text-gray-800">
                   {nextPost.title}
@@ -164,8 +193,6 @@ const PostPage = async ({ params }: any) => {
     </main>
   )
 }
-
-export default PostPage
 
 // 这个函数的作用是生成静态页面参数
 // generateStaticParams 函数是 Next.js 中用于静态站点生成（SSG）的一个重要函数

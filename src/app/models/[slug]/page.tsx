@@ -11,7 +11,10 @@ import { Author } from '@/modules/models/author'
 
 export const maxDuration = 30
 
-export default async function Models({ params }: { params: { slug: string } }) {
+type Props = Promise<{ slug: string }>
+
+export default async function Models(props: { params: Props }) {
+  const params = await props.params
   const { slug } = params
   const model = slug
   if (!model) return notFound()
