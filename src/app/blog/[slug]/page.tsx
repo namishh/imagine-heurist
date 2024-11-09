@@ -139,7 +139,7 @@ export default async function PostPage({ params }: any) {
         <Link className="group mb-12 flex items-center gap-1" href="/blog">
           <span className="i-mingcute-left-line text-[rgb(148,163,184)] transition-colors group-hover:text-[rgb(15,23,42)]" />
           <div className="text-[#334155] transition-colors group-hover:text-[rgb(15,23,42)]">
-            All posts
+            All blog
           </div>
         </Link>
         <div className="mb-4 text-sm -tracking-[0.28px] text-[#8e8d91]">
