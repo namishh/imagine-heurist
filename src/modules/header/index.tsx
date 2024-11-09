@@ -123,7 +123,7 @@ export function Header() {
               </div>
             )}
 
-            {!pathname.includes('/blog') && !pathname.includes('/campaign') && (
+            {!pathname.includes('/blog') && (
               <div className="hidden flex-1 justify-center lg:flex">
                 <Link href="/blog">
                   <SwapText
@@ -183,18 +183,14 @@ export function Header() {
           href={campaignLink}
           onClick={() => setIsExpanded(false)}
         >
-          <span>Campaign</span>
-          <div className="flex">
-            <AnimatedGradientText className="px-2 py-1 text-[10px] leading-[12px]">
-              <span
-                className={cn(
-                  `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
-                )}
-              >
-                NEW
-              </span>
-            </AnimatedGradientText>
-          </div>
+          Campaign
+        </Link>
+        <Link
+          className="flex h-12 items-center gap-2 border-b border-b-[rgba(0,0,0,0.1)]"
+          href="/blog"
+          onClick={() => setIsExpanded(false)}
+        >
+          Blog
         </Link>
         <div className="mt-4 text-sm">
           <ConnectButton />
