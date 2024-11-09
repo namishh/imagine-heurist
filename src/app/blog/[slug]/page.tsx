@@ -8,11 +8,13 @@ import Link from 'next/link'
 
 import { slugify } from '@/lib/commonFn'
 
-type Props = {
-  params: { slug: string }
-}
+type Props = Promise<{ slug: string }>
+
 // 动态生成 metadata
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Props
+}): Promise<Metadata> {
+  const params = await props.params
   const { slug } = params
   const postsDirectory = path.join(process.cwd(), 'src/content')
   const filePath = path.join(postsDirectory, `${slug}.md`)
