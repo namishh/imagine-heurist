@@ -13,6 +13,7 @@ import {
 } from '@rainbow-me/rainbowkit'
 import {
   metaMaskWallet,
+  okxWallet,
   rabbyWallet,
   rainbowWallet,
   walletConnectWallet,
@@ -23,6 +24,7 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Suggested',
       wallets: [
+        okxWallet,
         metaMaskWallet,
         rabbyWallet,
         rainbowWallet,
