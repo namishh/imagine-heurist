@@ -1,5 +1,6 @@
-# .platform/hooks/predepluy/01_install_dependencies.sh
 #!/bin/bash
+set -xe
+
 cd /var/app/staging
 
 # Install pnpm
