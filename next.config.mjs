@@ -66,7 +66,12 @@ const nextConfig = {
       },
     ],
   },
+  output: 'standalone',
   reactStrictMode: false,
+  poweredByHeader: false,
+  generateEtags: true,
+  compress: true,
+  productionBrowserSourceMaps: false,
 }
 
 export default nextConfig
