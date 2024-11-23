@@ -48,7 +48,7 @@ export function Header() {
     stateB: {
       backgroundColor: '#40404099',
       top: 24,
-      maxWidth: '800px',
+      maxWidth: '900px',
     },
   }
 
@@ -104,7 +104,7 @@ export function Header() {
           >
             <Logo />
           </Link>
-          <div className="flex items-center gap-20">
+          <div className="flex items-center gap-10">
             {pathname !== '/campaign' && (
               <div className="hidden flex-1 justify-center lg:flex">
                 <Link href={campaignLink}>
