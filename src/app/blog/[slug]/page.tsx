@@ -33,10 +33,10 @@ export async function generateMetadata(props: {
     const excerpt = content.slice(0, 160).trim() // 使用内容的前160个字符作为描述
 
     return {
-      title: `${data.title} | AI virtual idols`,
+      title: data.title,
       description: data.description || excerpt,
       openGraph: {
-        title: `${data.title} | AI virtual idols`,
+        title: data.title,
         description: data.description || excerpt,
         type: 'article',
       },
