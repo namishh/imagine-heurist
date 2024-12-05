@@ -276,7 +276,7 @@ export function CampaignReward() {
       // Prod version:
       const referralLink = `https://imagine.heurist.ai/campaign?ref=${referralCodeData.referral_code}`
 
-      const referralText = `Hey, I'm joining the Heurist Create to Earn campaign. Generate an image with Heurist AI and earn ZK & ETH rewards! Come and join me! ${referralLink}`
+      const referralText = `Hey, I'm joining the Heurist Create to Earn campaign. Generate an image with Heurist AI and earn HEU & ETH rewards! Come and join me! ${referralLink}`
       navigator.clipboard.writeText(referralText)
       toast.success(
         '🚀 Your Referral Code: ' +
@@ -417,7 +417,7 @@ export function CampaignReward() {
             rewards={
               userRewards ? userRewards.pool1_rewards.toLocaleString() : '---'
             }
-            rewardToken="ZK"
+            rewardToken="HEU"
             claimableRewards={rewards.silverRewards}
             onClaim={() => {
               if (rewards.silverRewards > BigInt(0)) {
@@ -431,7 +431,7 @@ export function CampaignReward() {
             rewards={
               userRewards ? userRewards.pool2_rewards.toLocaleString() : '---'
             }
-            rewardToken="ZK"
+            rewardToken="HEU"
             claimableRewards={rewards.goldRewards}
             onClaim={() => {
               if (rewards.goldRewards > BigInt(0)) {

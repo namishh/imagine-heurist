@@ -133,9 +133,9 @@ export default function RootLayout({
                 <span>🎉 Heurist x ZKsync Presents</span>
               </div>
               <div>
-                <span>Create AI Art and Earn ZK Tokens</span>
+                <span>Create AI Art and Earn HEU Tokens</span>
                 <Link
-                  className="underline ml-1"
+                  className="ml-1 underline"
                   href="https://docs.heurist.ai/ecosystem/create-to-earn"
                   target="_blank"
                 >
