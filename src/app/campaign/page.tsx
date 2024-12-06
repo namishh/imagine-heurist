@@ -29,45 +29,49 @@ export default async function NewCampaign() {
     },
   ).then((res) => res.json())
 
+  // const imageModels = res.filter(
+  //   (item) =>
+  //     item.type === 'sd15' ||
+  //     item.type === 'sdxl10' ||
+  //     item.type.includes('composite'),
+  // )
+
+  // // Get current date and use it as seed
+  // const today = new Date()
+  // let seed =
+  //   today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
+
+  // // Filter SD15 items and randomly select one
+  // const sd15Lists = imageModels.filter((item) => item.type.includes('15'))
+  // const randomIndex = Math.floor(seededRandom(seed) * sd15Lists.length)
+  // const firstItem = sd15Lists[randomIndex]
+
+  // // Create a list of all other items, including remaining SD15 models
+  // const otherLists = imageModels.filter((item) => item !== firstItem)
+  // const shuffledOther = shuffleArray(otherLists, seed)
+
+  // // Select three more items from the shuffled other list
+  // const additionalItems = shuffledOther.slice(0, 3)
+
+  // // Combine the selections
+  // const selectedLists = [firstItem, ...additionalItems]
+
+  // // Shuffle the selected lists (except the first one) to randomize their order
+  // const finalLists = [
+  //   selectedLists[0],
+  //   ...shuffleArray(selectedLists.slice(1), seed),
+  // ]
+
   const imageModels = res.filter(
-    (item) =>
-      item.type === 'sd15' ||
-      item.type === 'sdxl10' ||
-      item.type.includes('composite'),
-  )
-
-  // Get current date and use it as seed
-  const today = new Date()
-  let seed =
-    today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
-
-  // Filter SD15 items and randomly select one
-  const sd15Lists = imageModels.filter((item) => item.type.includes('15'))
-  const randomIndex = Math.floor(seededRandom(seed) * sd15Lists.length)
-  const firstItem = sd15Lists[randomIndex]
-
-  // Create a list of all other items, including remaining SD15 models
-  const otherLists = imageModels.filter((item) => item !== firstItem)
-  const shuffledOther = shuffleArray(otherLists, seed)
-
-  // Select three more items from the shuffled other list
-  const additionalItems = shuffledOther.slice(0, 3)
-
-  // Combine the selections
-  const selectedLists = [firstItem, ...additionalItems]
-
-  // Shuffle the selected lists (except the first one) to randomize their order
-  const finalLists = [
-    selectedLists[0],
-    ...shuffleArray(selectedLists.slice(1), seed),
-  ]
+    (item) => item.type && item.type.startsWith("flux")
+  );
 
   return (
     <main className="flex-1">
       <CampaignPreview />
       <CampaignReward />
       <Suspense>
-        <FeatureModel lists={finalLists} />
+        <FeatureModel lists={imageModels} />
       </Suspense>
       <Leaderboard />
     </main>

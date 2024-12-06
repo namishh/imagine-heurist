@@ -109,7 +109,7 @@ export function CampaignPreview() {
                 framerProps={{
                   show: { transition: { delay: 0.4, duration: 0.7 } },
                 }}
-                text="EARN ZK TOKEN"
+                text="EARN HEU TOKEN"
               />
             </div>
             <div className="flex md:justify-end">
@@ -267,7 +267,7 @@ export function CampaignPreview() {
               <NumberTicker
                 value={rewardsData?.pool1TotalRewards.toFixed(1) || '0.0'}
               />
-              <span>ZK</span>
+              <span>HEU</span>
             </div>
           </div>
           <div
@@ -295,7 +295,7 @@ export function CampaignPreview() {
               <NumberTicker
                 value={rewardsData?.pool2TotalRewards.toFixed(1) || '0.0'}
               />
-              <span>ZK</span>
+              <span>HEU</span>
             </div>
           </div>
         </div>
@@ -311,7 +311,7 @@ export function CampaignPreview() {
             />
             <TextGenerateEffect
               words1ClassName="font-bold"
-              words1="Every zkImagine NFT is carrying rewards. Pool 1 is for everyone. Pool 2 is for top 40 participants."
+              words1="Mint your AI art on ZKsync. Every zkImagine NFT is carrying rewards. Pool 1 is for everyone. Pool 2 is for top 40 participants."
               words2="Your scores depend on your mint count and social activities. Rewards are claimable at the end of every sprint."
             />
           </div>

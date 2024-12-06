@@ -86,8 +86,10 @@ function PoolRewardCard({
         <div className="line-clamp-1 rounded-[2px] bg-white px-2">
           Claimable:{' '}
           <span className="font-bold">
-            {formatEther(claimableRewards)} {rewardToken}
+            {formatEther(claimableRewards)} ZK {/* {rewardToken} */}
+            {/* TODO: use rewardToken in the future */}
           </span>
+          
         </div>
         <div
           className={`flex cursor-pointer items-center gap-2 transition-colors group-hover:text-[#CDF138] ${
@@ -276,7 +278,7 @@ export function CampaignReward() {
       // Prod version:
       const referralLink = `https://imagine.heurist.ai/campaign?ref=${referralCodeData.referral_code}`
 
-      const referralText = `Hey, I'm joining the Heurist Create to Earn campaign. Generate an image with Heurist AI and earn ZK & ETH rewards! Come and join me! ${referralLink}`
+      const referralText = `Hey, I'm joining the Heurist Create to Earn campaign. Generate an image with Heurist AI and earn HEU & ETH rewards! Come and join me! ${referralLink}`
       navigator.clipboard.writeText(referralText)
       toast.success(
         '🚀 Your Referral Code: ' +
@@ -417,7 +419,7 @@ export function CampaignReward() {
             rewards={
               userRewards ? userRewards.pool1_rewards.toLocaleString() : '---'
             }
-            rewardToken="ZK"
+            rewardToken="HEU"
             claimableRewards={rewards.silverRewards}
             onClaim={() => {
               if (rewards.silverRewards > BigInt(0)) {
@@ -431,7 +433,7 @@ export function CampaignReward() {
             rewards={
               userRewards ? userRewards.pool2_rewards.toLocaleString() : '---'
             }
-            rewardToken="ZK"
+            rewardToken="HEU"
             claimableRewards={rewards.goldRewards}
             onClaim={() => {
               if (rewards.goldRewards > BigInt(0)) {
@@ -512,9 +514,7 @@ export function CampaignReward() {
                   Write a Prompt
                 </div>
                 <div className="font-SFMono text-[14px] leading-[1.125] text-white/90 xl:text-[16px]">
-                  Describe the image using natural language to convey your
-                  wishes. It's recommended to use keywords separated by commas.
-                  Click on the preset images to get inspired.
+                  Describe the image in details using natural language. Click on the preset images to get inspired.
                 </div>
               </div>
             </div>
@@ -532,8 +532,7 @@ export function CampaignReward() {
                   Generate and Mint
                 </div>
                 <div className="font-SFMono text-[14px] leading-[1.125] text-white/90 xl:text-[16px]">
-                  Mint fee is 0.001 ETH on ZKsync Era. Partner NFT holders and
-                  selected Heurist community members get one chance of free mint
+                  Mint fee is 0.001 ETH on ZKsync Era. Heurist Discord OGs get one chance of free mint
                   per day. Gasless free mint is powered by Zyfi.
                 </div>
               </div>
@@ -550,9 +549,8 @@ export function CampaignReward() {
                   Upload and Share
                 </div>
                 <div className="font-SFMono text-[14px] leading-[1.125] text-white/90 xl:text-[16px]">
-                  Upload the artwork to Gateway Network to prove your ownership,
-                  and share on X (Twitter) to earn additional scores. Share your
-                  creation in Heurist Discord to get more exposure.
+                  Upload the image to Gateway Network to prove your ownership,
+                  and share on X to earn additional scores. Don't forget to share in Heurist Discord #share-your-tweet channel.
                 </div>
               </div>
             </div>

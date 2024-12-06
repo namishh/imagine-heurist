@@ -129,7 +129,7 @@ export function FeatureModel({ lists }: { lists: any[] }) {
     refreshPartnerNFTs,
   } = usePartnerFreeMint()
 
-  const featureModels = lists.slice(0, 4)
+  const featureModels = lists.slice(0, 2) // use two models
 
   const [open, setOpen] = useState(false)
   const [loadingGetModels, setLoadingGetModels] = useState(true)
@@ -686,7 +686,7 @@ export function FeatureModel({ lists }: { lists: any[] }) {
             )}
           >
             <NavTabs
-              tabs={['Model 1', 'Model 2', 'Model 3', 'Model 4']}
+              tabs={['Model 1', 'Model 2']}
               onSelect={(index) => {
                 setModels(modelList[index])
                 setActiveModelIndex(index)
@@ -717,8 +717,8 @@ export function FeatureModel({ lists }: { lists: any[] }) {
                           <Image
                             className="rounded-[8px] transition-opacity duration-image hover:opacity-80"
                             unoptimized
-                            width={512}
-                            height={768}
+                            width={680}
+                            height={1024}
                             priority
                             src={`https://raw.githubusercontent.com/heurist-network/heurist-models/main/examples/${item.label}.jpg`}
                             alt="model"
@@ -793,7 +793,7 @@ export function FeatureModel({ lists }: { lists: any[] }) {
                 </div>
                 <div className="mb-4 mt-1.5 font-SFMono text-sm leading-6 text-neutral-400">
                   Generate an image instantly with a pre-filled prompt. For more
-                  customization options, use Advanced Mint.
+                  customization options, use Advanced Mint. {selectedModel == "HeuristLogo" && "You must include 'heuristai logo' in the prompt"}
                 </div>
                 <Form {...form}>
                   <FormField
@@ -868,7 +868,7 @@ export function FeatureModel({ lists }: { lists: any[] }) {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="neg_prompt"
                     render={({ field }) => (
@@ -888,7 +888,7 @@ export function FeatureModel({ lists }: { lists: any[] }) {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                   <div className="flex flex-col gap-6 lg:flex-row">
                     <FormField
                       control={form.control}

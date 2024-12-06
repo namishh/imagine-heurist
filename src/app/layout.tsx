@@ -130,16 +130,15 @@ export default function RootLayout({
           <div className="bg-[#CDF138]">
             <div className="mx-auto flex h-14 max-w-5xl flex-col flex-nowrap items-center justify-center gap-0.5 truncate px-6 text-xs font-medium text-gray-950 md:h-10 md:max-w-[1440px] md:flex-row md:text-sm">
               <div>
-                <span>🎉 Heurist x ZKsync Presents</span>
+                <span>🎉 Special Rewards:</span>
               </div>
               <div>
-                <span>Create AI Art and Earn ZK Tokens</span>
+                <span>Create AI Art and Earn HEU Tokens</span>
                 <Link
-                  className="underline ml-1"
-                  href="https://docs.heurist.ai/ecosystem/create-to-earn"
-                  target="_blank"
+                  className="ml-1 underline"
+                  href="https://imagine.heurist.ai/campaign"
                 >
-                  Read more here
+                  Join here
                 </Link>
               </div>
             </div>

@@ -67,7 +67,7 @@ export function Leaderboard() {
   }, [address])
 
   return (
-    <div className="bg-[#F6F8FC] pt-[120px] pb-20 relative overflow-hidden">
+    <div className="relative overflow-hidden bg-[#F6F8FC] pb-20 pt-[120px]">
       <div
         className={cn(
           'absolute -right-12 -top-20 h-80 w-80 animate-pop-blob rounded-sm bg-[#877DFF]/20 p-8 mix-blend-multiply blur-3xl filter',
@@ -88,7 +88,7 @@ export function Leaderboard() {
         >
           Sprint {sprint} Leaderboard
         </div>
-        <div className="mt-1.5 text-sm mb-4 text-neutral-500 leading-6 lg:mb-8">
+        <div className="mb-4 mt-1.5 text-sm leading-6 text-neutral-500 lg:mb-8">
           Leaderboard data is refreshed every 5 minutes.
         </div>
         <div
@@ -97,7 +97,7 @@ export function Leaderboard() {
             'mt-[35px] md:mt-[38px] lg:mt-[42px] xl:mt-[46px] 2xl:mt-[50px]',
           )}
         >
-          <div className="border-spacing-y-4 w-full table">
+          <div className="table w-full border-spacing-y-4">
             <div
               className={cn(
                 'table-row font-semibold text-[#171717]/80',
@@ -105,12 +105,12 @@ export function Leaderboard() {
                 inter.className,
               )}
             >
-              <div className="pl-4 table-cell">Rank</div>
-              <div className="min-w-[200px] pl-4 table-cell">Address</div>
-              <div className="min-w-[200px] pl-4 table-cell">Mint Count</div>
-              <div className="min-w-[200px] pl-4 table-cell">Imagine Score</div>
-              <div className="min-w-[200px] pl-4 table-cell">
-                ZK Token Rewards
+              <div className="table-cell pl-4">Rank</div>
+              <div className="table-cell min-w-[200px] pl-4">Address</div>
+              <div className="table-cell min-w-[200px] pl-4">Mint Count</div>
+              <div className="table-cell min-w-[200px] pl-4">Imagine Score</div>
+              <div className="table-cell min-w-[200px] pl-4">
+                HEU Token Rewards
               </div>
             </div>
             {/* User's rank (if available) */}
@@ -143,8 +143,8 @@ export function Leaderboard() {
             ))}
           </div>
           {loading && (
-            <div className="flex bg-white/30 top-0 right-0 bottom-4 left-0 absolute items-center justify-center">
-              <span className="h-6 animate-spin w-6 i-mingcute-loading-fill" />
+            <div className="absolute bottom-4 left-0 right-0 top-0 flex items-center justify-center bg-white/30">
+              <span className="i-mingcute-loading-fill h-6 w-6 animate-spin" />
             </div>
           )}
         </div>
@@ -166,7 +166,7 @@ export function Leaderboard() {
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink
-                  className="cursor-pointer h-10 w-10 lg:h-16 lg:w-16"
+                  className="h-10 w-10 cursor-pointer lg:h-16 lg:w-16"
                   isActive
                 >
                   {page}
@@ -175,7 +175,7 @@ export function Leaderboard() {
               {hasNextPage && (
                 <PaginationItem>
                   <PaginationLink
-                    className="cursor-pointer h-10 w-10 lg:h-16 lg:w-16"
+                    className="h-10 w-10 cursor-pointer lg:h-16 lg:w-16"
                     onClick={() => {
                       getData(page + 1)
                     }}
@@ -224,7 +224,7 @@ export function LeaderboardRow({
   return (
     <div
       className={cn(
-        'font-SFMono table-row font-semibold text-[#171717]',
+        'table-row font-SFMono font-semibold text-[#171717]',
         'text-[16px] leading-[1.2] lg:text-[20px]',
       )}
     >

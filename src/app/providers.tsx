@@ -36,10 +36,10 @@ const connectors = connectorsForWallets(
 
 const config = createConfig({
   connectors,
-  chains: [zksync, mainnet],
+  chains: [zksync],
   transports: {
     [zksync.id]: http(),
-    [mainnet.id]: http(),
+    //[mainnet.id]: http(),
   },
 })
 
