@@ -86,8 +86,7 @@ function PoolRewardCard({
         <div className="line-clamp-1 rounded-[2px] bg-white px-2">
           Claimable:{' '}
           <span className="font-bold">
-            {formatEther(claimableRewards)} ZK {/* {rewardToken} */}
-            {/* TODO: use rewardToken in the future */}
+            {formatEther(claimableRewards)} {rewardToken}
           </span>
           
         </div>
