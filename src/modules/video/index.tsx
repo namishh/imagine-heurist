@@ -13,7 +13,7 @@ export default function ({ model }: any) {
           {model}
         </h2>
         <p className="text-muted-foreground">
-          Created by <b className="text-foreground">{model}</b>
+          Created by <b className="text-foreground">Tencent</b>
         </p>
         <Separator className="my-6" />
         <Tabs defaultValue="generate">
