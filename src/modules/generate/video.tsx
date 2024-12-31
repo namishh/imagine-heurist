@@ -101,7 +101,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
       })
       .then((data) => {
         if (!data) {
-          console.log('没有接收到数据')
+          console.log('not data')
           return
         }
         // 改进的CSV解析方式，移除\r字符
@@ -113,7 +113,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
         setCsvData(rows)
       })
       .catch((error) => {
-        console.error('获取或解析CSV文件时出错:', error)
+        console.error('get or parse csv error:', error)
       })
   }, [])
 
@@ -172,7 +172,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
       const params = { ...form.getValues() }
 
       const res = await generateVideo(params)
-      console.log('返回 res: ', res)
+      // console.log('返回 res: ', res)
       if (res.status !== 200) {
         toast.error(
           res.message || 'Failed to generate video, please try again.',
@@ -197,7 +197,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
     loopTimer = setInterval(async () => {
       try {
         const res = await getVideoResult(task_id)
-        console.log('查询视频', res)
+        // console.log('查询视频', res)
         setIsGenerating(true)
         if (res.status !== 200) {
           toast.error(
@@ -210,7 +210,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
         }
         const { data }: any = res
         if (data.status === 'finished') {
-          console.log('查询结束')
+          // console.log('查询结束')
           // data.workflow_id == 2 是 mochi
           setIsGenerating(false)
           clearInterval(loopTimer)
@@ -221,13 +221,13 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
           localStorage.removeItem('generateVideoTask')
         }
       } catch {
-        console.log('查询失败')
+        // console.log('查询失败')
       }
     }, 10000)
   }
   const getVideoResult = async (task_id: string) => {
     const response = await getGenerateVideoResult(task_id)
-    console.log('loop resposnse', response)
+    // console.log('loop resposnse', response)
     return response
   }
   function downloadVideo() {
@@ -245,7 +245,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
           window.URL.revokeObjectURL(url)
           document.body.removeChild(a)
         })
-        .catch((error) => console.error('下载失败:', error))
+        .catch((error) => console.error('download video error:', error))
       return
     }
     fetch(result.url)
@@ -260,7 +260,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
         window.URL.revokeObjectURL(url)
         document.body.removeChild(a)
       })
-      .catch((error) => console.error('下载失败:', error))
+      .catch((error) => console.error('download video error:', error))
   }
 
   return (
