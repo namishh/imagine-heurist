@@ -1,12 +1,14 @@
 'use server'
 
 import Heurist, { ImageModel } from 'heurist'
+import { Text2VideoTask } from 'heurist/workflow'
 
 import { env } from '@/env.mjs'
 import { Gateway, UserIdentifierType } from '@gateway-dao/sdk'
 
 const heurist = new Heurist({
   apiKey: env.AUTH_KEY,
+  workflowURL: 'https://sequencer-2.heurist.xyz',
 })
 
 const gateway = new Gateway({
@@ -56,6 +58,48 @@ export async function generateImage(data: any) {
     return { status: 200, data: response }
   } catch (error: any) {
     console.log(error.message, 'generateImage error')
+    return { status: 500, message: error.message }
+  }
+}
+export async function generateVideo(data: any) {
+  try {
+    console.log('Creating Text2Video task...')
+    const { prompt, steps, workflow_id } = data
+
+    const text2VideoTask: any = new Text2VideoTask({
+      workflow_id: workflow_id || '1',
+      prompt:
+        prompt ||
+        'a rabbit moving quickly in a beautiful winter scenery nature trees sunset tracking camera',
+      width: 848,
+      height: 480,
+      length: 37,
+      steps: steps || 30,
+      seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+      fps: 24,
+      quality: 80,
+      timeout_seconds: 600,
+    })
+
+    console.log('Task created:', text2VideoTask)
+    console.log('Executing workflow...')
+
+    const response = await heurist.workflow.executeWorkflow(text2VideoTask)
+
+    console.log('Generated video task_id:', response)
+    return { status: 200, data: response }
+  } catch (error: any) {
+    console.log(error.message, 'generateImage error')
+    return { status: 500, message: error.message }
+  }
+}
+export async function getGenerateVideoResult(task_id: string) {
+  try {
+    console.log('taskid', task_id)
+
+    const response = await heurist.workflow.queryTaskResult(task_id)
+    return { status: 200, data: response }
+  } catch (error: any) {
     return { status: 500, message: error.message }
   }
 }

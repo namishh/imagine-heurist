@@ -8,6 +8,7 @@ import Generate from '@/modules/generate'
 import History from '@/modules/generate/history'
 import PDAs from '@/modules/generate/pdas'
 import { Author } from '@/modules/models/author'
+import VideoComponent from '@/modules/video'
 
 export const maxDuration = 30
 
@@ -18,7 +19,10 @@ export default async function Models(props: { params: Props }) {
   const { slug } = params
   const model = slug
   if (!model) return notFound()
-
+  console.log('model: ', model)
+  if (model === 'Hunyuan') {
+    return <VideoComponent model={model} />
+  }
   try {
     const model1 = await fetch(
       `https://raw.githubusercontent.com/heurist-network/heurist-models/main/examples/${model}.json`,

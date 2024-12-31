@@ -16,6 +16,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 's3proxydc.akave.ai',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 's3.us-east-1.amazonaws.com',
         pathname: '/**',
       },
