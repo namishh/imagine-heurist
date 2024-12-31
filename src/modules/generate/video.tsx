@@ -150,16 +150,16 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
   const onSubmit = async () => {
     setResult({ url: '', workflow_id: '' })
     console.log('-- address --', address)
-    console.log('isnt includes', csvData.includes(address))
     // csvData
     const addressExists = csvData.some(
       (addr) => addr.toLowerCase() === address?.toLowerCase(),
     )
+    console.log('isnt includes', addressExists)
     if (!address) {
       toast.error('Please connect your wallet')
       return
     } else if (!addressExists) {
-      toast.error('NFT')
+      toast.error('You are not in the NFT whitelist')
       return
     }
     const params = { ...form.getValues() }
