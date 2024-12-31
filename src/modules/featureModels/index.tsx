@@ -35,7 +35,7 @@ export async function FeatureModels() {
   const videoList = [
     {
       name: 'Hunyuan',
-      author: 'author',
+      author: 'Tencent',
       type: 'text-to-video',
     },
   ]
