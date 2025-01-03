@@ -155,13 +155,13 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
       (addr) => addr.toLowerCase() === address?.toLowerCase(),
     )
     console.log('isnt includes', addressExists)
-    if (!address) {
-      toast.error('Please connect your wallet')
-      return
-    } else if (!addressExists) {
-      toast.error('You are not in the NFT whitelist')
-      return
-    }
+    // if (!address) {
+    //   toast.error('Please connect your wallet')
+    //   return
+    // } else if (!addressExists) {
+    //   toast.error('You are not in the NFT whitelist')
+    //   return
+    // }
     const params = { ...form.getValues() }
     if (params.prompt === '') {
       toast.error('Prompt is required')
@@ -349,7 +349,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
             )}
           /> */}
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FormField
               control={form.control}
               name="steps"
@@ -390,7 +390,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                 </FormItem>
               )}
             />
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <FormField

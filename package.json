@@ -38,7 +38,7 @@
     "framer-motion": "11.11.11",
     "geist": "1.3.1",
     "gray-matter": "^4.0.3",
-    "heurist": "0.0.35",
+    "heurist": "^0.0.38",
     "lucide-react": "0.456.0",
     "nanoid": "5.0.8",
     "next": "14.2.17",

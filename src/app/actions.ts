@@ -71,13 +71,13 @@ export async function generateVideo(data: any) {
       prompt:
         prompt ||
         'a rabbit moving quickly in a beautiful winter scenery nature trees sunset tracking camera',
-      width: 848,
-      height: 480,
-      length: 37,
-      steps: steps || 30,
-      seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
-      fps: 24,
-      quality: 80,
+      // width: 848,
+      // height: 480,
+      // length: 37,
+      // steps: 30,
+      // seed: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
+      // fps: 24,
+      // quality: 80,
       timeout_seconds: 600,
     })
 
