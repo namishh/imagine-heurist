@@ -8,7 +8,7 @@ import { Gateway, UserIdentifierType } from '@gateway-dao/sdk'
 
 const heurist = new Heurist({
   apiKey: env.AUTH_KEY,
-  workflowURL: 'https://sequencer-2.heurist.xyz',
+  workflowURL: 'https://sequencer-v2.heurist.xyz',
 })
 
 const gateway = new Gateway({
