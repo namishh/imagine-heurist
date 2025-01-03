@@ -120,7 +120,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
   const formSchema = z.object({
     prompt: z.string().optional(),
     neg_prompt: z.string().optional(),
-    num_iterations: z.number(),
+    steps: z.number(),
     guidance_scale: z.number(),
     width: z
       .number()
@@ -139,7 +139,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
     defaultValues: {
       prompt: '',
       neg_prompt: '',
-      num_iterations: 30,
+      steps: 30,
       guidance_scale: 7,
       width: 848,
       height: 480,
@@ -352,7 +352,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FormField
               control={form.control}
-              name="num_iterations"
+              name="steps"
               render={({ field }) => (
                 <FormItem className="space-y-4">
                   <FormLabel className="flex items-center">
@@ -363,7 +363,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                   </FormLabel>
                   <Input
                     className="hidden"
-                    name="num_iterations"
+                    name="steps"
                     value={field.value}
                     onChange={() => {}}
                   />
