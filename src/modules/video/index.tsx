@@ -5,13 +5,42 @@ import PDAs from '@/modules/generate/pdas'
 import Generate from '@/modules/generate/video'
 import { Author } from '@/modules/models/author'
 
-export default function ({ model }: any) {
+const fetchStatus = async () => {
+  const res = await fetch('https://sequencer-v2.heurist.xyz/miner_stats')
+  const data = await res.json()
+  return data
+}
+
+export default async function ({ model }: any) {
+  const data = await fetchStatus()
+  const { miner_count } = data
   return (
     <main className="-mt-20 flex-1 pt-20">
       <div className="mx-auto max-w-5xl px-6 pb-20 pt-8 md:max-w-[1440px]">
-        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-          {model}
-        </h2>
+        <div className="flex items-center justify-start">
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+            {model}
+          </h2>
+          {
+            <div className="ml-10 flex items-center gap-2">
+              {miner_count > 0 ? (
+                <span className="flex items-center justify-center">
+                  🟢
+                  <span className="ml-2 text-muted-foreground">
+                    Servers active
+                  </span>
+                </span>
+              ) : (
+                <span className="flex items-center justify-center">
+                  🔴
+                  <span className="ml-2 text-muted-foreground">
+                    Servers inactive
+                  </span>
+                </span>
+              )}
+            </div>
+          }
+        </div>
         <p className="text-muted-foreground">
           Created by <b className="text-foreground">Tencent</b>
         </p>
