@@ -11,10 +11,7 @@ import { Author } from '@/modules/models/author'
 
 export const maxDuration = 30
 
-type Props = Promise<{ slug: string }>
-
-export default async function Models(props: { params: Props }) {
-  const params = await props.params
+export default async function Models({ params }: { params: { slug: string } }) {
   const { slug } = params
   const model = slug
   if (!model) return notFound()
@@ -40,13 +37,15 @@ export default async function Models(props: { params: Props }) {
     ).then((res) => res.json())
 
     const res: any[] = await fetch(
-      'https://raw.githubusercontent.com/heurist-network/heurist-models/main/models.json',
+      'https://raw.githubusercontent.com/heurist-network/heurist-models/main/models-new.json',
       {
         next: { revalidate: 3600 },
       },
     ).then((res) => res.json())
 
     const findModel = res.find((item) => item.name === model)
+
+    console.log(findModel, 'findModel')
 
     const models = [
       { label: model, data: model1 },
@@ -55,8 +54,8 @@ export default async function Models(props: { params: Props }) {
     ]
 
     return (
-      <main className="-mt-20 flex-1 pt-20">
-        <div className="mx-auto max-w-5xl px-6 pb-20 pt-8 md:max-w-[1440px]">
+      <main className="flex-1 w-full sm:w-4/5 md:w-2/3 mx-auto">
+        <div className="container pb-20 pt-8">
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             {model}
           </h2>
@@ -69,7 +68,7 @@ export default async function Models(props: { params: Props }) {
                 History
                 <span className="text-muted-foreground">(Latest 50)</span>
               </TabsTrigger>
-              {/* <TabsTrigger value="pdas" className="gap-1 items-end">
+              {/* <TabsTrigger value="pdas" className="items-end gap-1">
                 PDAs
               </TabsTrigger> */}
             </TabsList>
@@ -92,7 +91,7 @@ export default async function Models(props: { params: Props }) {
     )
   } catch (error) {
     return (
-      <main className="flex-1">
+      <main className="flex-1 w-4/5 md:w-2/3 mx-auto">
         <div className="container pb-20 pt-8">
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             {model}
@@ -106,12 +105,14 @@ export default async function Models(props: { params: Props }) {
                 History
                 <span className="text-muted-foreground">(Latest 50)</span>
               </TabsTrigger>
-              {/* <TabsTrigger value="pdas" className="gap-1 items-end">
+              {/* <TabsTrigger value="pdas" className="items-end gap-1">
                 PDAs
               </TabsTrigger> */}
             </TabsList>
             <TabsContent value="generate">
-              <Generate model={model} models={[]} />
+              <div className="flex flex-row items-center justify-between flex-wrap">
+                <Generate model={model} models={[]} />
+              </div>
             </TabsContent>
             <TabsContent value="history">
               <History model={model} />

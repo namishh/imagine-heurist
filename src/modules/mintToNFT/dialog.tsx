@@ -370,7 +370,7 @@ export function MintToNFT({
       <DialogTrigger asChild>
         <Button
           size={size}
-          variant="outline"
+          variant="link"
           disabled={
             loadingMintNFT ||
             isSignatureFreeMinting ||
@@ -378,7 +378,7 @@ export function MintToNFT({
             isPartnerFreeMinting ||
             loadingPartnerFreeMint
           }
-          className="bg-gradient-to-r from-[#9ffd8d] to-[#eaff61] hover:bg-gradient-to-l"
+          className='text-white'
           onClick={async () => {
             if (canSignatureFreeMint) {
               console.log('Signature free mint, proceed')
@@ -399,7 +399,7 @@ export function MintToNFT({
             loadingPartnerFreeMint) && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          ✨ Mint zkImagine NFT{' '}
+          ✨ Mint NFT{' '}
           {canSignatureFreeMint || availableNFT ? ' (Free & Zero Gas)' : ''}
         </Button>
       </DialogTrigger>
