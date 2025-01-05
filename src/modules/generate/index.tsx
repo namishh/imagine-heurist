@@ -243,14 +243,6 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
         findModel.lists.push(item)
         setHistory(history)
       }
-
-      setTimeout(() => {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          left: 0,
-          behavior: 'smooth',
-        })
-      }, 100)
     } finally {
       setIsGenerating(false)
     }
@@ -300,6 +292,19 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
 
   return (
     <div>
+      <style>
+        {`
+          /* Hide scrollbar for containers with .hide-scrollbar class */
+          .hide-scrollbar::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+          }
+
+          .hide-scrollbar::-webkit-scrollbar-thumb {
+            background: transparent;
+          }
+        `}
+      </style>
       <div className="flex flex-col md:flex-row">
         <div className="p-2 md:p-4 border-[1px] border-neutral-200 w-full md:w-2/5">
           <Form {...form}>
@@ -514,7 +519,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Prompt</AlertDialogTitle>
                           <AlertDialogDescription asChild>
-                            <div className="whitespace-pre-wrap text-left">
+                            <div className="hide-scrollbar whitespace-pre-wrap text-left h-[300px] overflow-y-scroll rounded-lg bg-neutral-800 p-4 font-mono text-neutral-100">
                               {JSON.stringify(item.data, null, 2)}
                             </div>
                           </AlertDialogDescription>
