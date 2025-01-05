@@ -294,14 +294,16 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
     <div>
       <style>
         {`
-          /* Hide scrollbar for containers with .hide-scrollbar class */
-          .hide-scrollbar::-webkit-scrollbar {
-            width: 0;
-            background: transparent;
+          /* Hide scrollbar for containers with .custom-scrollbar class */
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+            background: #272727;
+            border-radius: 1rem;
           }
 
-          .hide-scrollbar::-webkit-scrollbar-thumb {
-            background: transparent;
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 0.5rem;
           }
         `}
       </style>
@@ -519,7 +521,7 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Prompt</AlertDialogTitle>
                           <AlertDialogDescription asChild>
-                            <div className="hide-scrollbar whitespace-pre-wrap text-left h-[300px] overflow-y-scroll rounded-lg bg-neutral-800 p-4 font-mono text-neutral-100">
+                            <div className="custom-scrollbar whitespace-pre-wrap text-left h-[320px] overflow-y-scroll rounded-sm bg-neutral-800 p-4 font-mono text-neutral-100">
                               {JSON.stringify(item.data, null, 2)}
                             </div>
                           </AlertDialogDescription>
