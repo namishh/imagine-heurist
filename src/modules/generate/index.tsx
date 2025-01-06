@@ -632,7 +632,6 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                 />
               </div>
             )}
-            <div className="flex justify-center items-center w-full p-4">
               <Image
                 className="object-contain h-full"
                 unoptimized
@@ -642,9 +641,8 @@ export default function Generate({ model, models, isXl }: GenerateProps) {
                 src={result.url}
                 alt="image result"
               />
-            </div>
             {!!result.url && (
-              <div className="absolute px-4 md:px-8 py-2 bottom-0 left-0 w-full bg-neutral-900/50">
+              <div className="absolute px-4 md:px-8 py-2 bottom-0 left-0 w-full bg-neutral-900">
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                   <MintToNFT url={info.url} model={model} imageId={info.id} />
                   <Button

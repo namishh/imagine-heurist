@@ -50,7 +50,13 @@ export default function History({ model }: { model: string }) {
                 width={item.width}
                 height={item.height}
               />
+
             <div className="absolute h-full w-full bg-gradient-to-t from-zinc-950 via-zinc-900/50"></div>
+            <PhotoView src={item.url}>
+            <div className="absolute p-2 bg-white top-4 right-4 rounded-full scale-[0.9] group-hover:scale-[1.4] transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#000000" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"></path></svg>
+            </div>
+            </PhotoView>
             <div className='absolute text-white group-hover:translate-y-0 transition translate-y-[3.2rem] z-10 bottom-0 left-0 p-4'>
               <div className="mb-1">Prompt:</div>
               <div className="line-clamp-3 text-sm text-background">
@@ -76,16 +82,9 @@ export default function History({ model }: { model: string }) {
                       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"></path></svg>
                     </Button>
                   </Link>
-                  <Button
-                    size="sm"
-                    variant="link"
-                    className='text-white'
-                    asChild
-                  >
-                    <PhotoView src={item.url}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff" viewBox="0 0 256 256"><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"></path></svg>
-                    </PhotoView>
-                  </Button>
+                    <Button size="sm" variant="link" className='text-white'>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff" viewBox="0 0 256 256"><path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path></svg>
+                    </Button>
                   <Button
                     size="sm"
                     variant="link"
@@ -95,7 +94,7 @@ export default function History({ model }: { model: string }) {
                     <span className="i-ri-twitter-x-fill" />
                   </Button>
                 </div>
-            </div>
+            </div> 
           </div>
         ))}
       </div>
