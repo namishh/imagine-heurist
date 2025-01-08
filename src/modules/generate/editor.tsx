@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { Canvas, FabricImage } from 'fabric'
-import { useLocalStorage } from 'usehooks-ts'
 import { format } from 'date-fns'
 
 interface ImageEditorCanvasProps {
@@ -9,7 +8,6 @@ interface ImageEditorCanvasProps {
     isOpen: boolean
     onClose: () => void
 }
-
 
 interface SavedImage {
     name: string
@@ -24,14 +22,105 @@ interface ModelImages {
     imgs: SavedImage[]
 }
 
+const DB_NAME = 'ImageEditorDB'
+const STORE_NAME = 'editedImages'
+const DB_VERSION = 1
+const MAX_STORAGE_MB = 100
+
 const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanvasProps) => {
     const [canvas, setCanvas] = useState<Canvas | null>(null)
     const [isVisible, setIsVisible] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const originalImageRef = useRef<HTMLImageElement | null>(null)
+    const [db, setDb] = useState<IDBDatabase | null>(null)
 
-    const [edits, setEdits] = useLocalStorage<ModelImages[]>('EDIT_HISTORY', [])
+    // Initialize IndexedDB
+    useEffect(() => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION)
+
+        request.onerror = (event) => {
+            console.error("IndexedDB error:", event)
+        }
+
+        request.onsuccess = (event) => {
+            setDb((event.target as IDBOpenDBRequest).result)
+        }
+
+        request.onupgradeneeded = (event) => {
+            const db = (event.target as IDBOpenDBRequest).result
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                const store = db.createObjectStore(STORE_NAME, { keyPath: 'name' })
+                store.createIndex('create_at', 'create_at', { unique: false })
+            }
+        }
+
+        return () => {
+            if (db) {
+                db.close()
+            }
+        }
+    }, [])
+
+    const getBase64Size = (base64String: string) => {
+        const padding = base64String.endsWith('==') ? 2 : 1
+        return (base64String.length * 0.75 - padding) / 1024 / 1024
+    }
+
+    const removeOldestImagesIfNeeded = async (newImageSize: number) => {
+        if (!db) return
+
+        const transaction = db.transaction(STORE_NAME, 'readwrite')
+        const store = transaction.objectStore(STORE_NAME)
+        const index = store.index('create_at')
+
+        return new Promise<void>((resolve, reject) => {
+            const getAllRequest = index.getAll()
+
+            getAllRequest.onsuccess = async () => {
+                const allImages = getAllRequest.result as ModelImages[]
+                let totalSize = newImageSize
+
+                allImages.forEach(model => {
+                    model.imgs.forEach(img => {
+                        totalSize += getBase64Size(img.base64)
+                    })
+                })
+
+                if (totalSize > MAX_STORAGE_MB) {
+                    const allImagesFlat = allImages.flatMap(model => 
+                        model.imgs.map(img => ({...img, modelName: model.name}))
+                    ).sort((a, b) => new Date(a.create_at).getTime() - new Date(b.create_at).getTime())
+
+                    while (totalSize > MAX_STORAGE_MB && allImagesFlat.length > 0) {
+                        const oldestImage = allImagesFlat.shift()
+                        if (oldestImage) {
+                            const modelTx = db.transaction(STORE_NAME, 'readwrite')
+                            const modelStore = modelTx.objectStore(STORE_NAME)
+                            
+                            const getModelRequest = modelStore.get(oldestImage.modelName)
+                            getModelRequest.onsuccess = () => {
+                                const modelData = getModelRequest.result
+                                if (modelData) {
+                                    modelData.imgs = modelData.imgs.filter(
+                                        (img: SavedImage) => img.create_at !== oldestImage.create_at
+                                    )
+                                    modelStore.put(modelData)
+                                }
+                            }
+                            
+                            totalSize -= getBase64Size(oldestImage.base64)
+                        }
+                    }
+                }
+                resolve()
+            }
+
+            getAllRequest.onerror = () => {
+                reject(new Error('Failed to get images'))
+            }
+        })
+    }
 
     const handleRotation = (direction: 'cw' | 'ccw') => {
         if (!canvas) return;
@@ -117,7 +206,9 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
         };
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
+        if (!db) return;
+
         const imageData = getImageFromCanvas(true);
         if (!imageData) return;
 
@@ -133,20 +224,29 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
             base64: imageData.base64
         }
 
-        const modelIndex = edits.findIndex(item => item.name === model)
+        try {
+            // Check storage limits before saving
+            await removeOldestImagesIfNeeded(getBase64Size(imageData.base64))
 
-        if (modelIndex === -1) {
-            setEdits([
-                ...edits,
-                {
-                    name: model,
-                    imgs: [savedImage]
+            const transaction = db.transaction(STORE_NAME, 'readwrite')
+            const store = transaction.objectStore(STORE_NAME)
+
+            const getRequest = store.get(model)
+
+            getRequest.onsuccess = () => {
+                const modelData = getRequest.result
+                if (modelData) {
+                    modelData.imgs.push(savedImage)
+                    store.put(modelData)
+                } else {
+                    store.put({
+                        name: model,
+                        imgs: [savedImage]
+                    })
                 }
-            ])
-        } else {
-            const updatedEdits = [...edits]
-            updatedEdits[modelIndex].imgs.push(savedImage)
-            setEdits(updatedEdits)
+            }
+        } catch (error) {
+            console.error('Error saving image:', error)
         }
     }
 
@@ -165,6 +265,7 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
         document.body.removeChild(link);
     }
 
+    // Canvas initialization and cleanup
     useEffect(() => {
         if (!isVisible || !imageUrl || !canvasRef.current) return;
 

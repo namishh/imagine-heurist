@@ -1,39 +1,107 @@
 'use client'
-
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import Image from 'next/image'
-import { useLocalStorage } from 'usehooks-ts'
-
 import { usePartnerFreeMint } from '@/hooks/usePartnerFreeMint'
-
 import 'react-photo-view/dist/react-photo-view.css'
-import { Button } from '@/components/ui/button'
 import { formatDistance } from 'date-fns'
-import { MintToNFT } from '../mintToNFT'
-import Link from 'next/link'
+
+const DB_NAME = 'ImageEditorDB'
+const STORE_NAME = 'editedImages'
+const DB_VERSION = 1
+
+interface SavedImage {
+    name: string
+    width: number
+    height: number
+    create_at: string
+    base64: string
+}
+
+interface ModelImages {
+    name: string
+    imgs: SavedImage[]
+}
 
 export default function Edits({ model }: { model: string }) {
     const { refreshPartnerNFTs } = usePartnerFreeMint()
-    const [edits] = useLocalStorage<any[]>('EDIT_HISTORY', [])
+    const [modelImages, setModelImages] = useState<SavedImage[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         refreshPartnerNFTs()
     }, [refreshPartnerNFTs])
 
-    console.log(edits)
+    useEffect(() => {
+        const fetchImagesFromIndexedDB = async () => {
+            try {
+                const db = await new Promise<IDBDatabase>((resolve, reject) => {
+                    const request = indexedDB.open(DB_NAME, DB_VERSION)
+                    
+                    request.onerror = () => reject(request.error)
+                    request.onsuccess = () => resolve(request.result)
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = (event.target as IDBOpenDBRequest).result
+                        if (!db.objectStoreNames.contains(STORE_NAME)) {
+                            const store = db.createObjectStore(STORE_NAME, { keyPath: 'name' })
+                            store.createIndex('create_at', 'create_at', { unique: false })
+                        }
+                    }
+                })
 
-    const findModelHistory: any[] = edits.find((item) => item.name === model)?.imgs ?? []
-    findModelHistory.sort((a: any, b: any) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime());
+                const transaction = db.transaction(STORE_NAME, 'readonly')
+                const store = transaction.objectStore(STORE_NAME)
+                const request = store.get(model)
 
-    if (!findModelHistory.length) return <div className="py-4">No data</div>
+                request.onsuccess = () => {
+                    const modelData = request.result as ModelImages
+                    if (modelData && modelData.imgs) {
+                        const sortedImages = [...modelData.imgs].sort(
+                            (a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime()
+                        )
+                        setModelImages(sortedImages)
+                    }
+                    setLoading(false)
+                }
+
+                request.onerror = () => {
+                    setError('Failed to fetch images')
+                    setLoading(false)
+                }
+
+                // Clean up
+                transaction.oncomplete = () => {
+                    db.close()
+                }
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'An error occurred')
+                setLoading(false)
+            }
+        }
+
+        fetchImagesFromIndexedDB()
+    }, [model])
+
+    if (loading) {
+        return <div className="py-4">Loading...</div>
+    }
+
+    if (error) {
+        return <div className="py-4 text-red-500">Error: {error}</div>
+    }
+
+    if (!modelImages.length) {
+        return <div className="py-4">No data</div>
+    }
 
     return (
         <PhotoProvider>
             <div className="grid grid-cols-1 gap-6 py-4 md:grid-cols-2 lg:grid-cols-3">
-                {findModelHistory.map((item, j) => (
+                {modelImages.map((item, j) => (
                     <div
-                        key={j}
+                        key={item.name}
                         className="group overflow-y-hidden relative flex cursor-pointer flex-col justify-between rounded-lg border"
                     >
                         <Image
@@ -44,7 +112,6 @@ export default function Edits({ model }: { model: string }) {
                             height={item.height}
                             alt="img"
                         />
-
                         <div className="absolute h-full w-full bg-gradient-to-t from-zinc-950 via-zinc-900/50" />
                         <PhotoView src={item.base64}>
                             <div className="absolute p-2 bg-white top-4 right-4 rounded-full scale-[0.9] group-hover:scale-[1.4] transition">
@@ -53,9 +120,7 @@ export default function Edits({ model }: { model: string }) {
                                 </svg>
                             </div>
                         </PhotoView>
-
-
-                        <div className="flex flex-col absolute bottom-4 left-0 px-4  gap-4">
+                        <div className="flex flex-col absolute bottom-4 left-0 px-4 gap-4">
                             <div className="text-[13px] leading-[20px] text-[rgb(142,141,145)]">
                                 {formatDistance(new Date(item.create_at), new Date(), {
                                     addSuffix: true,
@@ -65,7 +130,6 @@ export default function Edits({ model }: { model: string }) {
                     </div>
                 ))}
             </div>
-
         </PhotoProvider>
     )
 }
