@@ -83,7 +83,7 @@ export default function History({ model }: { model: string }) {
                 </div>
               </div>
 
-              <div className="flex items-center justify-start mt-2">
+              <div className="flex items-center flex-wrap justify-start mt-2">
                 <MintToNFT url={item.url} model={model} imageId={item.id} size="sm" />
                 <Link href={item.url} download>
                   <Button size="sm" variant="link" className="text-white">
