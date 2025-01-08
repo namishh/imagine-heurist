@@ -8,6 +8,7 @@ import Generate from '@/modules/generate'
 import History from '@/modules/generate/history'
 import PDAs from '@/modules/generate/pdas'
 import { Author } from '@/modules/models/author'
+import Edits from '@/modules/generate/edits'
 
 export const maxDuration = 30
 
@@ -68,6 +69,7 @@ export default async function Models({ params }: { params: { slug: string } }) {
                 History
                 <span className="text-muted-foreground">(Latest 50)</span>
               </TabsTrigger>
+              <TabsTrigger value="edits">Saved Edits</TabsTrigger>
               {/* <TabsTrigger value="pdas" className="items-end gap-1">
                 PDAs
               </TabsTrigger> */}
@@ -81,6 +83,9 @@ export default async function Models({ params }: { params: { slug: string } }) {
             </TabsContent>
             <TabsContent value="history">
               <History model={model} />
+            </TabsContent>
+            <TabsContent value="edits">
+              <Edits model={model} />
             </TabsContent>
             <TabsContent value="pdas">
               <PDAs />

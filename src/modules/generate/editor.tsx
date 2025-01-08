@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { Canvas, FabricImage } from 'fabric'
 import { useLocalStorage } from 'usehooks-ts'
+import { format } from 'date-fns'
 
 interface ImageEditorCanvasProps {
     model: string
@@ -12,6 +13,9 @@ interface ImageEditorCanvasProps {
 
 interface SavedImage {
     name: string
+    width: number
+    height: number
+    create_at: string
     base64: string
 }
 
@@ -36,37 +40,53 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
             const tempCanvas = document.createElement('canvas');
             const tempCtx = tempCanvas.getContext('2d');
             if (!tempCtx) return null;
-
             tempCanvas.width = originalImageRef.current.naturalWidth;
             tempCanvas.height = originalImageRef.current.naturalHeight;
 
+            // Draw the original image
             tempCtx.drawImage(originalImageRef.current, 0, 0);
 
-            return tempCanvas.toDataURL('image/png', 1.0);
+            return {
+                base64: tempCanvas.toDataURL('image/png', 1.0),
+                width: tempCanvas.width,
+                height: tempCanvas.height
+            };
         } else {
             const imageObject = canvas.getObjects().find(obj => obj instanceof FabricImage);
             if (!imageObject) return null;
 
             const bounds = imageObject.getBoundingRect();
-            return canvas.toDataURL({
-                format: 'png',
-                quality: 1,
-                multiplier: 1,
-                left: bounds.left,
-                top: bounds.top,
+            return {
+                base64: canvas.toDataURL({
+                    format: 'png',
+                    quality: 1,
+                    multiplier: 1,
+                    left: bounds.left,
+                    top: bounds.top,
+                    width: bounds.width,
+                    height: bounds.height
+                }),
                 width: bounds.width,
                 height: bounds.height
-            });
+            };
         }
     }
 
     const handleSave = () => {
-        const base64Image = getImageFromCanvas(true);
-        if (!base64Image) return;
+        const imageData = getImageFromCanvas(true);
+        if (!imageData) return;
 
-        const date = new Date().toISOString().split('T')[0]
+        const date = new Date()
         const randomString = Math.random().toString(36).substring(2, 8)
-        const imageName = `${date}-${randomString}`
+        const imageName = `${format(date, 'yyyy-MM-dd')}-${randomString}`
+
+        const savedImage: SavedImage = {
+            name: imageName,
+            width: imageData.width,
+            height: imageData.height,
+            create_at: format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+            base64: imageData.base64
+        }
 
         const modelIndex = edits.findIndex(item => item.name === model)
 
@@ -75,18 +95,12 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
                 ...edits,
                 {
                     name: model,
-                    imgs: [{
-                        name: imageName,
-                        base64: base64Image
-                    }]
+                    imgs: [savedImage]
                 }
             ])
         } else {
             const updatedEdits = [...edits]
-            updatedEdits[modelIndex].imgs.push({
-                name: imageName,
-                base64: base64Image
-            })
+            updatedEdits[modelIndex].imgs.push(savedImage)
             setEdits(updatedEdits)
         }
     }
@@ -96,7 +110,7 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
         if (!base64Image) return;
 
         const link = document.createElement('a');
-        link.href = base64Image;
+        link.href = base64Image.base64;
         const date = new Date().toISOString().split('T')[0];
         const randomString = Math.random().toString(36).substring(2, 8);
         link.download = `edited-image-${date}-${randomString}.png`;
