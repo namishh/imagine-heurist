@@ -6,7 +6,6 @@ import { formatDistance } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLocalStorage } from 'usehooks-ts'
-import { Canvas, FabricImage } from 'fabric'
 import ImageEditorCanvas from './editor'
 
 import { usePartnerFreeMint } from '@/hooks/usePartnerFreeMint'
@@ -19,8 +18,6 @@ import { Button } from '@/components/ui/button'
 export default function History({ model }: { model: string }) {
   const { refreshPartnerNFTs } = usePartnerFreeMint()
   const [history] = useLocalStorage<any[]>('IMAGINE_HISTORY', [])
-  const [canvas, setCanvas] = useState<Canvas | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
     refreshPartnerNFTs()
@@ -115,6 +112,7 @@ export default function History({ model }: { model: string }) {
       </div>
 
       <ImageEditorCanvas
+        model={model}
         imageUrl={currentImage}
         isOpen={isModalOpen}
         onClose={closeModal}
