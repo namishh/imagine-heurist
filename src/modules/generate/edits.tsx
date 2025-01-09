@@ -29,6 +29,43 @@ export default function Edits({ model }: { model: string }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
+    const deleteImage = async (imageName: string) => {
+        try {
+            const db = await new Promise<IDBDatabase>((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION)
+                request.onerror = () => reject(request.error)
+                request.onsuccess = () => resolve(request.result)
+            })
+
+            const transaction = db.transaction(STORE_NAME, 'readwrite')
+            const store = transaction.objectStore(STORE_NAME)
+            
+            const getRequest = store.get(model)
+            
+            getRequest.onsuccess = () => {
+                const modelData = getRequest.result as ModelImages
+                if (modelData && modelData.imgs) {
+                    const updatedImages = modelData.imgs.filter(img => img.name !== imageName)
+                    const updateData = {
+                        name: model,
+                        imgs: updatedImages
+                    }
+                    store.put(updateData)
+                    setModelImages(updatedImages.sort(
+                        (a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime()
+                    ))
+                }
+            }
+
+            transaction.oncomplete = () => {
+                db.close()
+            }
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to delete image')
+        }
+    }
+
+
     useEffect(() => {
         refreshPartnerNFTs()
     }, [refreshPartnerNFTs])
@@ -127,6 +164,19 @@ export default function Edits({ model }: { model: string }) {
                                 })}
                             </div>
                         </div>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                deleteImage(item.name);
+                            }}
+                            className="absolute bottom-2 right-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M3 6h18" />
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                            </svg>
+                        </button>
                     </div>
                 ))}
             </div>
