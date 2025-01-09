@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import { Canvas, FabricImage } from 'fabric'
 import { format } from 'date-fns'
 import { useFabricCrop } from '@/hooks/useFabricCrop'
+import { CRTFilter } from '../filters/crt'
+import { PixelFilter } from '../filters/pixel'
 
 interface ImageEditorCanvasProps {
 	model: string
@@ -52,7 +54,6 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
   const handleCropCancel = () => {
     cancelCrop()
   }
-
 
 	// Initialize IndexedDB
 	useEffect(() => {
@@ -312,6 +313,7 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
 				evented: false,
 			});
 
+
 			const maxWidth = window.innerWidth * 0.8;
 			const maxHeight = window.innerHeight * 0.8;
 
@@ -321,6 +323,19 @@ const ImageEditorCanvas = ({ model, imageUrl, isOpen, onClose }: ImageEditorCanv
 				const scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
 				fabricImage.scale(scaleFactor);
 			}
+
+			// const crt = new CRTFilter({
+			// 	bezelWidth: 0.01,
+			// 	curvature: 0.03,
+			// })
+
+			// const pixel = new PixelFilter({
+			// 	blockSize: 20,
+			// 	smoothing: 0,
+			// })
+
+			// fabricImage.filters = [pixel, crt];
+			// fabricImage.applyFilters();
 
 			initCanvas.add(fabricImage);
 			initCanvas.centerObject(fabricImage);

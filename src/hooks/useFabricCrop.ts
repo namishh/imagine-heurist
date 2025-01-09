@@ -26,7 +26,6 @@ export const useFabricCrop = ({ canvas }: UseFabricCropProps): UseFabricCropRetu
     const startCropping = useCallback(() => {
         if (!canvas) return
 
-        // Find the image object on the canvas
         const objects = canvas.getObjects()
         const image = objects.find(obj => obj instanceof FabricImage)
 
@@ -35,7 +34,6 @@ export const useFabricCrop = ({ canvas }: UseFabricCropProps): UseFabricCropRetu
         setImageToClip(image)
         const bounds = image.getBoundingRect()
 
-        // Create crop rectangle
         const rect = new Rect({
             left: bounds.left,
             top: bounds.top,
@@ -70,26 +68,22 @@ export const useFabricCrop = ({ canvas }: UseFabricCropProps): UseFabricCropRetu
         const flipX = imageToClip.flipX
         const flipY = imageToClip.flipY
 
-        // Temporarily reset angle for accurate cropping
         imageToClip.set({ angle: 0 })
         canvas.renderAll()
 
         const rect = cropRect.getBoundingRect()
         const imageRect = imageToClip.getBoundingRect()
 
-        // Calculate relative positions and dimensions
         const relativeLeft = rect.left - imageRect.left
         const relativeTop = rect.top - imageRect.top
         const relativeWidth = rect.width
         const relativeHeight = rect.height
 
-        // Calculate crop dimensions in original image space
         const cropX = (relativeLeft / imageRect.width) * originalWidth
         const cropY = (relativeTop / imageRect.height) * originalHeight
         const cropWidth = (relativeWidth / imageRect.width) * originalWidth
         const cropHeight = (relativeHeight / imageRect.height) * originalHeight
 
-        // Create temporary canvas for cropping
         const tempCanvas = document.createElement("canvas")
         tempCanvas.width = cropWidth
         tempCanvas.height = cropHeight

@@ -28,7 +28,6 @@ export default function History({ model }: { model: string }) {
   )
     .sort((a: any, b: any) => +new Date(b.create_at) - +new Date(a.create_at))
     .slice(0, 50)
-
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentImage, setCurrentImage] = useState<string | null>(null)
 
@@ -36,7 +35,6 @@ export default function History({ model }: { model: string }) {
     setCurrentImage(imageUrl)
     setIsModalOpen(true)
   }
-
   const closeModal = () => {
     setIsModalOpen(false)
     setCurrentImage(null)
